@@ -1,0 +1,34 @@
+---js
+const eleventyNavigation = {
+	key: "Home",
+	order: 1
+};
+
+const numberOfLatestPostsToShow = 3;
+---
+{% set postsCount = collections.posts | length %}
+{% set latestPostsCount = postsCount | min(numberOfLatestPostsToShow) %}
+
+<h1>Welcome</h1>
+<p>This is simple Eleventy based site on that I build using <a href="https://github.com/11ty/eleventy-base-blog" target="_blank"><strong>eleventy base blog</strong></a> template.</p>
+<p>You can see 3 latest projects below and all of them in the <a href="/projects"><strong>projects</strong></a> page</p>
+
+<h2>Latest {{ latestPostsCount }} Project{% if latestPostsCount != 1 %}s{% endif %}</h2>
+
+{% set postslist = collections.posts | head(-1 * numberOfLatestPostsToShow) %}
+{% set postslistCounter = postsCount %}
+{% include "postslist.njk" %}
+
+{% set morePosts = postsCount - numberOfLatestPostsToShow %}
+{% if morePosts > 0 %}
+<p>{{ morePosts }} more post{% if morePosts != 1 %}s{% endif %} can be found in <a href="blog.njk">projects</a>.</p>
+{% endif %}
+
+{# List every content page in the project #}
+{#
+<ul>
+	{%- for entry in collections.all %}
+	<li><a href="{{ entry.url }}"><code>{{ entry.url }}</code></a></li>
+	{%- endfor %}
+</ul>
+#}
